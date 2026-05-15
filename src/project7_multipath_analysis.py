@@ -1,12 +1,6 @@
 =============================================================================
 🛰️ Project 8 — Multipath Analysis
 =============================================================================
- Author   : Hakim El Azzouzi
- Degree   : MSc Global Navigation Satellite Systems
-            Mohammed First University, Oujda, Morocco
- Email    : elazzouzihakim10@gmail.com
- LinkedIn : https://linkedin.com/in/Hakim-El-Azzouzi
- Location : Luxembourg 🇱🇺
 -----------------------------------------------------------------------------
  Station  : AUCK00NZL  —  Auckland, New Zealand  (GeoNet / LINZ Network)
  File     : AUCK00NZL_R_20260010000_01D_30S_MO.rnx
@@ -31,13 +25,13 @@ and analyses when, where, and how severely multipath affects the AUCK00NZL stati
 
 | Plot | What It Shows |
 |------|---------------|
-| 📉 **MP1 time series** | Multipath variation during each satellite's arc |
-| 🌡️ **MP1 heatmap** | All GPS satellites — multipath intensity over time |
-| 📊 **MP1 RMS bar chart** | Which satellites are most affected |
-| 📈 **MP1 histogram** | Statistical distribution of multipath errors |
-| 🕐 **Sidereal repeat** | Does multipath repeat 4 minutes earlier each day? |
+| **MP1 time series** | Multipath variation during each satellite's arc |
+| **MP1 heatmap** | All GPS satellites — multipath intensity over time |
+| **MP1 RMS bar chart** | Which satellites are most affected |
+| **MP1 histogram** | Statistical distribution of multipath errors |
+| **Sidereal repeat** | Does multipath repeat 4 minutes earlier each day? |
 ---
-## 📐 The Mathematics
+## The Mathematics
 
 ### MP1 — L1 code multipath proxy:
 ```
@@ -97,7 +91,6 @@ property used in multipath mitigation (sidereal filtering).
 # ─────────────────────────────────────────────────────────────────
 # Step 1 — Install & Import Libraries
 # ─────────────────────────────────────────────────────────────────
-# Uncomment if running for the first time:
 # !pip install --upgrade georinex
 
 import sys
@@ -192,7 +185,7 @@ print(f'   L2 wavelength = {LAM2_GPS*100:.4f} cm')
 # RINEX FILE PATH HERE
 obs_path = "/AUCK00NZL_R_20260010000_01D_30S_MO.rnx"  # ← change this path
 # Read the file header first (fast — no data loaded yet)
-print("📋 FILE HEADER")
+print(" FILE HEADER")
 print("=" * 60)
 header = gr.rinexheader(obs_path)
 
@@ -203,7 +196,7 @@ print()
 
 # Load all observation data (interval=30 means keep 30-sec rate)
 
-print("⏳ Loading observation data (this may take 1–2 minutes)...")
+print(" Loading observation data (this may take 1–2 minutes)...")
 obs = gr.load(obs_path, interval=30)
 print()
 print("✅ Data loaded!")
@@ -318,7 +311,7 @@ print(f"✅ MP1 computed for {len(mp1_data)} / {len(gps_sats)} GPS satellites")
 # Overall site RMS
 all_rms = [v[1] for v in mp1_data.values() if v[1] is not None]
 site_rms = np.mean(all_rms)
-print(f"\n📊 Site-average MP1 RMS : {site_rms:.3f} m")
+print(f"\n Site-average MP1 RMS : {site_rms:.3f} m")
 qual = 'Clean (<0.30 m)' if site_rms < 0.30 else 'Moderate (0.30–0.50 m)' if site_rms < 0.50 else 'High multipath (>0.50 m)'
 print(f"   Assessment           : {qual}")
 
@@ -376,7 +369,7 @@ plt.show()
 
 print('✅ Saved: output/plot1_mp1_timeseries.png')
 print()
-print('💡 Interpretation:')
+print(' Interpretation:')
 print('   • Oscillations around zero = multipath coming and going as satellite moves')
 print('   • Larger amplitude = stronger reflection in that direction')
 print('   • Orange/red dashed lines = quality thresholds')
@@ -471,7 +464,7 @@ plt.show()
 print('✅ Saved: output/plot2_mp1_heatmap.png')
 
 print()
-print('💡 Interpretation:')
+print('  Interpretation:')
 print('   • Vertical colour bands at the same UTC hour across multiple sats')
 print('     → site-specific reflector active at that time of day')
 print('   • Smooth arcs = low multipath environment')
@@ -535,7 +528,7 @@ plt.show()
 
 print('✅ Saved: output/plot3_mp1_rms_ranking.png')
 print()
-print(f'📊 MP1 RMS ranking:')
+print(f' MP1 RMS ranking:')
 for sat, rms in rms_sorted.items():
     q = 'Clean' if rms < 0.30 else 'Moderate' if rms < 0.50 else 'HIGH MULTIPATH'
     print(f'   {sat}: {rms:.3f} m  — {q}')
@@ -618,7 +611,7 @@ plt.show()
 
 print('✅ Saved: output/plot4_mp_histogram.png')
 print()
-print(f'📊 MP1 statistics (all GPS, all arcs):')
+print(f' MP1 statistics (all GPS, all arcs):')
 print(f'   Mean  : {mp1_mean:.5f} m  (should be ≈ 0 after mean removal)')
 print(f'   Std   : {mp1_std:.3f}  m')
 print(f'   RMS   : {mp1_rms:.3f}  m')
@@ -699,7 +692,7 @@ plt.show()
 
 print('✅ Saved: output/plot5_sidereal_repeat.png')
 print()
-print('💡 Interpretation:')
+print('  Interpretation:')
 print(f'   • Sidereal day = {SIDEREAL_SHIFT.seconds//3600}h {(SIDEREAL_SHIFT.seconds%3600)//60}m {SIDEREAL_SHIFT.seconds%60:.1f}s')
 print(f'   • Each day the multipath pattern shifts {SHIFT_DIFF.seconds//60}m {SHIFT_DIFF.seconds%60}s earlier')
 print(f'   • Sidereal filtering uses this to subtract multipath from the next day')
